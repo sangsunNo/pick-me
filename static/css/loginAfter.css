@@ -1,0 +1,88 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;  
+}
+
+*{
+    font-family: 'Pretendard-Regular';
+}   
+
+.contBack {
+  position: relative;
+  background-color: rgba(120, 144, 156, 0.55);
+  width: 90%;
+  height: 220px;
+  border-radius: 3px;
+  margin-top: 30px;
+  padding: 15px 0px;
+}
+
+.logAfter {
+  right: 10%;
+}
+
+.afterCont {
+  text-align: left;
+  display: inline-block;
+  margin-left: 10%;
+}
+
+.afterCont > h2 {
+  font-weight: 800;
+  color: #fff;
+  /* margin-left: 2%; */
+  display: inline-block;
+}
+
+.afterCont > a {
+  font-weight: 500;
+  color: #fff;
+  text-decoration-line: none;
+  display: inline-block;
+}
+
+.proImg > img {
+  width: 140px;
+  height: 190px;
+  overflow: hidden;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+.proImg {
+  display: inline-block;
+}
+
+a.button {
+  display: block;
+  position: relative;
+  float: left;
+  width: 100px;
+  padding: 0;
+  margin: 10px 20px 10px 0;
+  font-weight: 600;
+  text-align: center;
+  line-height: 50px;
+  color: #FFF;
+  border-radius: 10px;
+  transition: all 0.1s ;
+}
+
+.btnBlue {
+  background: #4a898c;
+}
+
+.btnFade.btnBlue:hover {
+  background: #2e6265;
+}
+
+.btnRed {
+  background: #975858;
+}
+
+.btnFade.btnRed:hover {
+  background: #5f4440;
+}
+

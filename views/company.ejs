@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+  <link rel="stylesheet" href="/static/css/company.css" />
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+
+<%-include("navbarCom.ejs")%>
+
+  <div class="test row">
+    <div id="left" class="col-9 col-sm-12">
+      <div class="main_list">
+        <div class="choose_stack">
+          <h1>Stack</h1>
+          <hr />
+          <% var stackList=["JAVA", "Javascript" , "Python" , "R" , "C" , "C++" , "C#" , "PHP" , "Cobol" , "HTML"
+            , "Linux" , "Kotlin" , "Dart" , "Go" ];%>
+            <div class="stack_style">
+              <% for ( var i=0; i < stackList.length; i++ ) { %>
+                <button type="button" class="normal_btn" onclick="addStack(this.value)" value="<%= stackList[i] %>">
+                  <%= stackList[i] %>
+                </button>
+                <% } %>
+            </div>
+            <div class="career_style">
+              <h1>Career</h1>
+              <hr />
+              <div class="slidecontainer">
+                <input type="range" min="1" max="20" value="1" class="slider" id="myRange" />
+                <p>Year: <span id="range"></span></p>
+              </div>
+            </div>
+        </div>
+        <div class="location">
+          <h1>Location</h1>
+          <hr />
+          <select name="location_select" id="location_select">
+            <option value="">Seoul</option>
+            <option value="">Incheon</option>
+            <option value="">Daejeon</option>
+            <option value="">Daegu</option>
+            <option value="">Pusan</option>
+            <option value="">Ulsan</option>
+            <option value="">Gwangju</option>
+            <option value="">Gyeonggi</option>
+          </select>
+        </div>
+        <!-- 클릭하면 추가되는 자리 -->
+        <div id="selected">조건 : </div>
+        <!-- =================== -->
+        <div class="develop_list">
+          <p>Developers</p>
+        </div>
+      </div>
+    </div>
+    <div id="right" class="col-3 col-sm-o">
+      <div class="bucket">
+        Bucket
+        <div class="selected_bucket"></div>
+      </div>
+    </div>
+  </div>
+  <%-include("footer.ejs")%>
+    </body>
+
+
+    <script>
+      var stackList = "";
+      var bucketList = [];
+      //arcodian
+      function startAccordion() {
+        var acc = document.getElementsByClassName("accordion");
+        for (var i = 0; i < acc.length; i++) {
+          acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+              panel.style.maxHeight = null;
+            } else {
+              panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+          });
+        }
+      }
+
+      //bucket
+      var currentPosition = parseInt($(".bucket").css("top"));
+      $(window).scroll(function () {
+        var position = $(window).scrollTop();
+        $(".bucket")
+          .stop()
+          .animate({ top: position + currentPosition + 150 + "px" }, 300);
+      });
+
+
+      // career 선택, 변경
+      var slider = document.getElementById("myRange");
+      var output = document.getElementById("range");
+      output.innerHTML = slider.value;
+
+      slider.oninput = function () {
+        output.innerHTML = this.value;
+      };
+      slider.onchange = function () {
+        sendElement("career", slider.value);
+      };
+      // -----------------------------
+
+      // location 선택, 변경
+      $("#location_select").change(function () {
+        var location_selected = $("#location_select option:selected").text();
+        sendElement("location", location_selected);
+      });
+      // -----------------------------
+
+      // stack 추가
+      function addStack(stack) {
+        $(`button[value$="${stack}"]`).css("background-color", "grey");
+        $("#selected").append(
+          `<button type="button" class="normal_btn" onclick="delStack('${stack}')" value="${stack}-checked"> ${stack}</button> %>`
+        );
+        $(`button[value$="${stack}"]`).attr("onclick", "delStack(this.value)");
+
+        stackList += stack + "|";
+        sendElement("stack", stackList);
+      }
+      // -----------------------------
+
+      // stack 제거
+      function delStack(stack) {
+        $(`button[value$="${stack}"]`).css(
+          "background-color",
+          "rgb(228, 228, 228)"
+        );
+        $(`button[value$="${stack}"]`).attr("onclick", "addStack(this.value)");
+        $(`button[value$="${stack}-checked"]`).remove();
+        stackList = stackList.replace(`${stack}|`, "");
+
+        sendElement("stack", stackList);
+      }
+      // -----------------------------
+
+      // 서버에 데이터 전송
+      // elementName: stack, career, location .....
+      // data: 문자열 데이터
+      function sendElement(elementName, data) {
+        axios({
+          url: "/sortUserByElement",
+          method: "post",
+          data: {
+            element: elementName,
+            data: data
+          }
+        }).then((response) => {
+
+          var data = response.data.data;
+          var container = $('.develop_list');
+          container.html('');
+          //<!-- data.stack.replace(/[|]/g, ' '); -->
+          for (var i = 0; i < data.length; i++) {
+            /*datae.stack.replace(/\s/g, '|');*/
+            var a = data[i].stack
+            var a = a.replace(/[|]/gi, ' ');
+            var b = data[i].career
+            var b = b.replace(/[|]/gi, ' ');
+
+            container.append(`
+          <button class="accordion">${data[i].name}</button>
+            <div class="panel">
+              <p>stack: ${a}}</p> 
+              <p>career: ${b}</p>
+              <p>location: ${data[i].location}</p>
+              <button type="button" onclick=selected_devel("${data[i].name}","${data[i].uuid}")>찜하기</button>
+            </div>
+          `)
+          }
+          startAccordion()
+        })
+
+      }
+      // -----------------------------
+      //bucket button
+      function selected_devel(name, uuid) {
+        let selected_name = $(".selected_bucket");
+        if (bucketList.includes(uuid) == false) {
+          bucketList.push(uuid)
+          selected_name.append(`<p>${name}</p>`);
+
+          axios({
+            url: "/addBucket",
+            method: "post",
+            data: {
+              bucket: JSON.stringify(bucketList)
+
+            }
+          })
+        }
+      }
+      // -----------------------------
+      //bucket button
+      function selected_devel(name, uuid) {
+        let selected_name = $(".selected_bucket");
+        if (bucketList.includes(uuid) == false) {
+          bucketList.push(uuid)
+          selected_name.append(`<p>${name}</p>`);
+
+          axios({
+            url: "/addBucket",
+            method: "post",
+            data: {
+              bucket: JSON.stringify(bucketList)
+            }
+          }).then((response) => {
+            console.log(response)
+          })
+        }
+        // -----------------------------
+      }
+
+      //--------------------
+      //navbar scroll backgournd-color
+      window.addEventListener("scroll", function () {
+        if (scrollY <= 350 && scrollY >= 0) {
+          $(".topnav").attr("style", "background-color: transparent !import");
+          $(".user").attr("style", "color : black !important");
+          $(".Corp").attr("style", "color: black !important");
+        } else {
+          $(".topnav").attr("style", "background-color:  rgb(22, 38, 60) !important");
+          $(".user").attr("style", "color : white !important");
+          $(".Corp").attr("style", "color: white !important");
+        }
+      })
+    </script>
+
+
+</html>

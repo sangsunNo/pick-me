@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/static/css/bucket.css" />
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+    crossorigin="anonymous"></script>
+
+  <title>Bucket</title>
+</head>
+
+<body>
+  <%-include("navbarCom.ejs") %>
+    <div class="wrap">
+      <div class="content1">
+        <div class="personal">
+          <h2>담은 개발자들</h2>
+          <div id="resumeContainer"></div>
+        </div>
+      </div>
+      <div class="content2">
+        <h2>이력</h2>
+        <div class="bucketlist"></div>
+      </div>
+    </div>
+
+    <%-include("footer.ejs") %>
+
+
+      <script>
+        function startAccordion() {
+          var acc = document.getElementsByClassName("accordion");
+
+          for (var i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+              this.classList.toggle("active");
+              var panel = this.nextElementSibling;
+              if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+              } else {
+                panel.style.maxHeight = panel.scrollHeight + 300 + "px";
+              }
+            });
+          }
+        }
+
+        function resume() {
+          if ($(".content2").css("display") == "none") {
+            $(".content2").show();
+            $(".content2").css("height", "45%");
+            $(".content1").css("height", "45%");
+          } else {
+            $(".content2").hide();
+            $(".wrap").css("height", "800px");
+            $(".content2").css("height", "0%");
+          }
+        }
+        resumeContainer = $('#resumeContainer');
+        axios({
+          url: "/companyBucket",
+          method: "post",
+
+        }).then((result) => {
+          axios({
+            url: "/getViewUserResume",
+            method: "post",
+            data: {
+              userUuid: result.data
+            }
+          }).then((result) => {
+            console.log(result.data)
+            for (var i in result.data) {
+              console.log(result.data[i])
+
+              resumeContainer.append(`
+              <button class="accordion">${result.data[i].name}</button>
+                <div class="panel">
+                  <p>stack: ${result.data[i].stack}</p>
+                  <p>career: ${result.data[i].career}</p>
+                  <p>location: ${result.data[i].location}</p>
+                  <button type="button" onclick=ruleOut("${result.data[i].uuid}")>제외</button>
+                </div>
+              `)
+            }
+            startAccordion();
+          })
+        })
+
+
+        function ruleOut(ev) {
+          console.log(ev);
+          // var whoIndex = Number(ev);
+          data = { uuid: ev };
+          axios({
+            url: "/companyBucket/ruleout",
+            method: "post",
+            data: data
+          }).then((response => {
+            console.log("레스폰체크", response);
+            // window.location = '/bucket';
+            window.location.reload();
+          })
+        // $(".accordion")[i].remove()
+
+          )
+        }
+      </script>
+      <script src="https://code.jquery.com/jquery-3.6.1.js"
+        integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+</body>
+
+</html>

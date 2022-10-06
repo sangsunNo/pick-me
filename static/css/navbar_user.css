@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'Hahmlet-Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/Hahmlet-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+ 
+ .topnav {
+   position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 20px;
+  }
+
+  /* Style the links inside the navigation bar */
+  .topnav a.user {
+    float: right;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+  }
+
+  #main{
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 19px;
+    display: block;
+    font-family: 'Hahmlet-Bold';
+  }
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    color: black;
+  }
+   .navbar_toggler{
+  display: none;
+ }
+  #main:hover{
+    background-color: white;
+  }
+
+  /* Add a color to the active/current link */
+.toggle{
+  display: block;
+  display: none;
+}
+ @media screen and (max-width: 650px){
+  nav{
+    display: flex;
+  }
+  .topnav{
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    position: fixed;
+  }
+  .navbar_toggler{
+    display: block;
+    font-size: 24px;
+  }
+  
+}
