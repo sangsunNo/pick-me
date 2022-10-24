@@ -217,8 +217,8 @@
       function selected_devel(name, uuid) {
         let selected_name = $(".selected_bucket");
         if (bucketList.includes(uuid) == false) {
-          bucketList.push(uuid)
-          selected_name.append(`<p>${name}</p>`);
+        bucketList.push(uuid)
+        selected_name.append(`<p>${name}</p>`);
 
           axios({
             url: "/addBucket",
