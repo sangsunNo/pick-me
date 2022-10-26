@@ -34,7 +34,7 @@
 
 <br/>
 
-![main](images/pickme_main.png)
+![main](/static/img/pickme_main.png)
 
 <br/><br/>
 
