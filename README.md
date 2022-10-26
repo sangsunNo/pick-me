@@ -14,6 +14,7 @@
 기업은 기업에서 필요한 기술들을 카테고리에서 선택하여 분류한 후 선택을 하는   
 일종의 구인구직 사이트를 제작하였습니다.
 
+🔗 Link : [Pick me](http://118.67.130.161:8000/) &nbsp;&nbsp;&nbsp;
 [프로젝트 개요](https://sangsunno.github.io/pick%20me/pick-me-1-%EA%B0%9C%EC%9A%94/ "프로젝트 개요")
 
 <br/>
@@ -38,4 +39,5 @@
 
 <br/><br/>
 
-#### 🔗 Link : [Pick me](http://118.67.130.161:8000/)
+🔗 Link : [Pick me](http://118.67.130.161:8000/) &nbsp;&nbsp;&nbsp;
+[프로젝트 개요](https://sangsunno.github.io/pick%20me/pick-me-1-%EA%B0%9C%EC%9A%94/ "프로젝트 개요")
